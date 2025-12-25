@@ -1,11 +1,17 @@
 # 🫀 Monitoring and Maintaining Cardiac Health using Machine Learning  
-### Hybrid Voting Classifier Based Heart Disease Prediction System
+
+<p align="center">
+  <b>Hybrid Voting Classifier Based Heart Disease Prediction System</b><br>
+</p>
 
 <p align="center">
   <b>Research-Oriented | Hybrid ML Model | Flask Deployment</b><br>
 </p>
 
 ---
+## 📌 **IEEE Published Research Implementation**  
+This repository contains the official implementation of an IEEE-published research paper on heart disease prediction using hybrid machine learning models.  
+🔗 https://ieeexplore.ieee.org/document/11081197
 
 ## 📌 Abstract
 
@@ -134,8 +140,6 @@ Class distribution after SMOTE:
 ✔ ROC Curve  
 ✔ Classification Report  
 
-All results **match the research paper and PPT**.
-
 ---
 
 ## 🌐 Web Application (Flask)
@@ -235,24 +239,30 @@ http://127.0.0.1:5000/
 ```
 
 ---
+## 📄 Research Publication
 
-## 📄 Research & Documentation Alignment
+This project is directly aligned with and implemented based on our peer-reviewed research paper published on IEEE Xplore.
 
-✔ Research Paper
-✔ Conference PPT
-✔ Codebase
-✔ Results & Metrics
+🔗 IEEE Publication Link
 
-All components are **fully consistent and reproducible**.
+👉 Monitoring and Maintaining Cardiac Health Using Machine Learning Models
+https://ieeexplore.ieee.org/document/11081197
 
----
+📌 Publication Details
 
-## 🚀 Final Status
+Publisher: IEEE
 
-✅ Hybrid Voting Classifier implemented
-✅ Correlation & statistical analysis included
-✅ Web deployment completed
-✅ Documentation finalized
+Platform: IEEE Xplore Digital Library
+
+Focus:
+
+Hybrid Machine Learning models for heart disease prediction
+
+Ensemble / Voting Classifier approach
+
+Performance comparison across ML algorithms
+
+Practical deployment considerations
 
 ---
 
@@ -260,7 +270,6 @@ All components are **fully consistent and reproducible**.
 
 **Akash Akuthota**
 Computer Science Graduate
-Specialization: Machine Learning & Data Science
 
 ---
 
