@@ -1,164 +1,269 @@
-# Monitoring and Maintaining Cardiac Health using Machine Learning
+# 🫀 Monitoring and Maintaining Cardiac Health using Machine Learning  
+### Hybrid Voting Classifier Based Heart Disease Prediction System
 
-An end-to-end machine learning–based system for **heart disease prediction**, combining multiple supervised learning models through an **ensemble (Voting / Hybrid Classifier)** approach and deploying the final model using a **Flask web application** for real-time prediction and decision support.
-
-This project was developed as part of the **Bachelor of Engineering (Computer Science & Engineering)** final-year project and is supported by a **peer-reviewed conference paper**.
-
----
-
-## 📌 Problem Statement
-
-Heart disease remains one of the leading causes of mortality worldwide. Traditional diagnostic approaches often fail to capture complex, non-linear relationships between clinical parameters, leading to delayed or inaccurate diagnosis.
-
-This project aims to:
-- Predict the presence of heart disease using patient clinical data
-- Improve prediction accuracy using **ensemble learning**
-- Provide an **accessible web interface** for real-time diagnosis support
-- Assist preventive care through **dietary recommendations**
+<p align="center">
+  <b>Research-Oriented | Hybrid ML Model | Flask Deployment</b><br>
+  <i>Aligned with Research Paper, PPT, and Final Documentation</i>
+</p>
 
 ---
 
-## 🧠 Proposed Solution
+## 📌 Abstract
 
-The system uses a **Hybrid Voting Classifier** that combines the strengths of multiple supervised machine learning algorithms:
+Cardiovascular diseases are among the leading causes of death globally.  
+Early and accurate detection of heart disease using clinical parameters can significantly improve patient outcomes.
 
-- Logistic Regression (LR)
-- K-Nearest Neighbors (KNN)
-- Random Forest (RF)
-- Decision Tree (DT)
-
-Predictions from individual models are aggregated using **hard/soft voting logic**, resulting in improved robustness and accuracy compared to standalone models.
+This project implements a **Hybrid Machine Learning System** using a **Voting Classifier** that combines multiple supervised learning algorithms to improve prediction accuracy, stability, and generalization.  
+The trained model is deployed through a **Flask-based web application** for real-time prediction.
 
 ---
 
-## 🏗️ System Architecture
+## 🎯 Key Objectives
 
-**Workflow Overview:**
-
-1. Data Collection (Heart Disease Dataset)
-2. Data Preprocessing
-   - Handling missing values
-   - Encoding categorical variables
-   - Feature scaling (StandardScaler)
-3. Feature Engineering & Selection
-4. Model Training
-   - LR, KNN, RF, DT
-5. Ensemble Learning (Voting / Hybrid Model)
-6. Model Evaluation
-7. Deployment using Flask Web Application
-
-The final system supports **real-time prediction** via a browser-based interface.
+✔ Design a **Hybrid (Ensemble) Machine Learning Model**  
+✔ Compare individual classifiers with a **Voting Classifier**  
+✔ Handle **class imbalance using SMOTE**  
+✔ Perform **EDA, correlation analysis, and statistical visualization**  
+✔ Deploy the final model using **Flask**  
+✔ Maintain **strict alignment with research paper & PPT**
 
 ---
 
-## 📊 Dataset Description
+## 🧠 Dataset Information
 
-The dataset consists of commonly used **clinical parameters**, including:
+| Attribute | Description |
+|---------|------------|
+| Dataset | `heart_1.csv` |
+| Records | 919 |
+| Features | Clinical & diagnostic parameters |
+| Target | `HeartDisease` (0 = No, 1 = Yes) |
 
-- Age
-- Sex
-- Chest Pain Type (cp)
-- Resting Blood Pressure (trestbps)
-- Serum Cholesterol (chol)
-- Fasting Blood Sugar (fbs)
-- Resting ECG (restecg)
-- Maximum Heart Rate Achieved (thalach)
-- Exercise Induced Angina (exang)
-- ST Depression (oldpeak)
-- Slope of ST Segment (slope)
-- Number of Major Vessels (ca)
-- Thalassemia (thal)
-- Target (Heart Disease: Yes/No)
-
----
-
-## ⚙️ Technologies Used
-
-**Programming & Frameworks**
-- Python
-- Flask
-
-**Machine Learning & Data Processing**
-- scikit-learn
-- Pandas
-- NumPy
-
-**Visualization**
-- Matplotlib
-- Seaborn
-
-**Model Persistence**
-- Pickle
+### Key Features
+- Age  
+- Resting Blood Pressure  
+- Cholesterol  
+- Fasting Blood Sugar  
+- Maximum Heart Rate  
+- ST Depression (Oldpeak)  
+- Chest Pain Type  
+- Resting ECG  
+- Exercise Angina  
+- ST Slope  
 
 ---
 
-## 📈 Model Evaluation Metrics
+## 🔬 Exploratory Data Analysis (EDA)
 
-The models were evaluated using standard classification metrics:
+Performed entirely inside **`model.py`**, producing:
 
+📊 Density plots (numeric features only)  
+🔥 Correlation heatmap  
+📈 Feature distributions  
+🌲 Feature importance (Random Forest)
+
+These plots appear **directly in the terminal execution** to support:
+- Statistical interpretation
+- Paper & PPT figures
+- Result reproducibility
+
+---
+
+## ⚙️ Machine Learning Models Implemented
+
+### Individual Classifiers
+- Logistic Regression  
+- K-Nearest Neighbors (KNN)  
+- Decision Tree  
+- Random Forest  
+
+Each model is evaluated using:
 - Accuracy
 - Precision
 - Recall
-- F1-Score
+- F1-score
 - Confusion Matrix
-- ROC–AUC Curve
-
-### Individual Model Performance (from experiments)
-
-| Model | Accuracy (%) |
-|------|--------------|
-| Logistic Regression | ~89% |
-| KNN | ~87% |
-| Random Forest | ~89% |
-| Hybrid Voting Model | **Highest** |
-
-The **Hybrid Voting Classifier** showed:
-- Reduced false positives
-- Reduced false negatives
-- Better generalization across samples
+- ROC Curve
 
 ---
 
-## 🧪 Visual Analysis Included
+## 🧩 Hybrid Voting Classifier (Core Contribution)
 
-- Feature density plots
-- Correlation heatmap
-- Confusion matrices (per model)
-- ROC–AUC curve for Logistic Regression
+### Why Voting Classifier?
+✔ Combines strengths of multiple models  
+✔ Reduces overfitting  
+✔ Improves stability  
+✔ Produces balanced predictions  
 
-These visualizations help validate feature relevance and model behavior.
+### Models Used in Ensemble
+- Logistic Regression  
+- KNN  
+- Decision Tree  
+- Random Forest  
+
+📌 **Soft Voting** is applied to leverage predicted probabilities.
+
+---
+
+## ⚖️ Handling Class Imbalance
+
+To address skewed class distribution:
+
+- **SMOTE (Synthetic Minority Oversampling Technique)** is applied
+- Balances training data before model fitting
+- Improves recall and fairness
+
+```
+
+Class distribution after SMOTE:
+1 → 406
+0 → 406
+
+```
+
+---
+
+## 📊 Model Performance (Hybrid Model)
+
+| Metric | Value |
+|------|------|
+| Accuracy | ~88–89% |
+| Precision | Balanced |
+| Recall | Balanced |
+| F1-score | Stable |
+
+✔ Confusion Matrix  
+✔ ROC Curve  
+✔ Classification Report  
+
+All results **match the research paper and PPT**.
 
 ---
 
 ## 🌐 Web Application (Flask)
 
-The trained model is integrated into a Flask application that:
+The trained hybrid model is deployed using **Flask**.
 
-- Accepts patient clinical inputs via forms
-- Applies preprocessing and scaling
-- Generates prediction + probability score
-- Displays results in a user-friendly UI
+### Application Features
+- Step-by-step user input form
+- Automatic feature encoding
+- Feature scaling using saved scaler
+- Prediction probability display
+- Clean UI with result visualization
 
-Routes include:
-- Home
-- About
-- Heart Disease Predictor
-- Result Page
-- Contact
-
----
-
-## 🥗 Additional Features
-
-- **Personalized dietary recommendations** for patients diagnosed with heart disease
-- Supports preventive healthcare alongside diagnosis
+📁 Training and inference are **strictly separated**:
+- `model.py` → training + evaluation
+- `app.py` → prediction only
 
 ---
 
-## 🚀 How to Run the Project
+## 📁 Project Structure
 
-### 1️⃣ Clone the Repository
+```
+
+Monitoring-And-Maintaining-Cardiac-Health-using-Machine-Learning-Model/
+│
+├── model.py                 # Training, EDA, evaluation, saving models
+├── app.py                   # Flask inference application
+├── heart_1.csv              # Dataset
+├── requirements.txt         # Dependencies
+├── README.md                # Project documentation
+│
+├── static/
+│   ├── model/
+│   │   ├── model.sav        # Hybrid Voting Classifier
+│   │   ├── scaler.pkl       # StandardScaler
+│   │   └── features.pkl    # Feature order reference
+│   ├── style/
+│   └── script/
+│
+├── templates/
+│   ├── home.html
+│   ├── heart_disease.html
+│   ├── result.html
+│   ├── about.html
+│   └── contact.html
+
+````
+
+---
+
+## 🛠 Requirements
+
+All dependencies are listed in `requirements.txt`.
+
+Key libraries:
+- Python 3.10
+- NumPy
+- Pandas
+- Matplotlib
+- Seaborn
+- Scikit-learn
+- Imbalanced-learn
+- Flask
+
+Install using:
 ```bash
-git clone https://github.com/AkashAkuthota/Monitoring-And-Maintaining-Cardiac-Health-using-Machine-Learning-Model.git
-cd Monitoring-And-Maintaining-Cardiac-Health-using-Machine-Learning-Model
+pip install -r requirements.txt
+````
+
+---
+
+## ▶️ How to Run the Project
+
+### Step 1: Train the Model
+
+```bash
+python model.py
+```
+
+✔ Performs EDA
+✔ Trains individual + hybrid models
+✔ Displays plots and metrics
+✔ Saves model artifacts
+
+---
+
+### Step 2: Run the Web Application
+
+```bash
+python app.py
+```
+
+Open in browser:
+
+```
+http://127.0.0.1:5000/
+```
+
+---
+
+## 📄 Research & Documentation Alignment
+
+✔ Research Paper
+✔ Conference PPT
+✔ Codebase
+✔ Results & Metrics
+
+All components are **fully consistent and reproducible**.
+
+---
+
+## 🚀 Final Status
+
+✅ Hybrid Voting Classifier implemented
+✅ Correlation & statistical analysis included
+✅ Web deployment completed
+✅ Documentation finalized
+
+---
+
+## 👨‍💻 Author
+
+**Akash Akuthota**
+Computer Science Graduate
+Specialization: Machine Learning & Data Science
+
+---
+
+> *This project demonstrates the practical application of ensemble machine learning techniques for real-world healthcare prediction problems.*
 

@@ -1,133 +1,208 @@
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
-import seaborn as sn
-from matplotlib import pyplot
-from sklearn.metrics import precision_score, recall_score, confusion_matrix, accuracy_score, roc_curve
-from sklearn import metrics
-data=pd.read_csv('heart_data.csv', sep='\t' )
-
-data.plot(kind='density' , subplots=True , layout=(4,4) , sharex=False ,
-          fontsize=8 , figsize=(10,10))
-plt.tight_layout()
-plt.title('Density map', y=1.1)
-
-plt.show()
-
-mask = np.zeros_like(data.corr())
-mask[np.triu_indices_from(mask)] = True
-with sn.axes_style("ticks"):
-    f, ax = plt.subplots(figsize=(9, 5))
-    ax = sn.heatmap(data.corr(), mask=mask, vmax=.3,annot=True,fmt=".0%",linewidth=0.5,square=False)
-
-plt.title('Correlation Map', y=1.1)
-
-plt.show()
-
-
-a = pd.get_dummies(data['cp'], prefix = "cp")
-b = pd.get_dummies(data['thal'], prefix = "thal")
-c = pd.get_dummies(data['slope'], prefix = "slope")
-d = pd.get_dummies(data['gender'], prefix = "sex")
-
-updated_clms = [data, a,b,c,d]
-data = pd.concat(updated_clms, axis=1)
-data.head()
-data = data.drop(columns = ['cp','thal', 'slope', 'gender'])
-
-from sklearn.preprocessing import StandardScaler
-standardScaler = StandardScaler()
-columns_to_scale = ['age', 'trestbps', 'chol', 'thalach', 'oldpeak']
-data[columns_to_scale] = standardScaler.fit_transform(data[columns_to_scale])
-y = data.target
-X = data.drop(['target'], axis = 1)
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pickle
 
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 0.22,random_state=42)
-
-from sklearn.neighbors import KNeighborsClassifier
-knn = KNeighborsClassifier(n_neighbors = 2)  # n_neighbors means k
-knn.fit(X_train, y_train)
-prediction = knn.predict(X_test)
-print("{} KNN Score: {:.2f}%".format(2, knn.score(X_test, y_test)*100))
-print(f"Precision Score  : {precision_score(prediction,y_test) * 100:.2f}% ")
-print(f"Recall Score     : {recall_score(prediction,y_test) * 100:.2f}% " )
-print("Confusion Matrix :\n" ,confusion_matrix(prediction,y_test))
-
-
-
-from sklearn.ensemble import RandomForestClassifier
-rf = RandomForestClassifier(n_estimators=1,random_state=0)
-rf.fit(X_test,y_test)
-acc = rf.score(X_test,y_test)*100
-y_pred=rf.predict(X_test)
-cf_matrix = confusion_matrix(y_test.T, y_pred)
-print("Accuracy of Random Forest: {:.2f}%".format(acc))
-print(f"Precision Score  : {precision_score(y_pred,y_test) * 100:.2f}% ")
-print(f"Recall Score     : {recall_score(y_pred,y_test) * 100:.2f}% " )
-print("Confusion Matrix :\n" ,cf_matrix)
-
-
+from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-classifier = LogisticRegression(random_state = 2)
-classifier.fit(X_train, y_train )
-y_prediction = classifier.predict(X_test)
-cm = confusion_matrix(y_test, y_prediction)
-print (f"Accuracy : { accuracy_score(y_test, y_prediction) * 100:.2f}% ")
-print(f"Precision Score  : {precision_score(y_prediction,y_test) * 100:.2f}% ")
-print(f"Recall Score     : {recall_score(y_prediction,y_test) * 100:.2f}% " )
-print ("Confusion Matrix : \n", cm)
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, roc_curve, auc
+from imblearn.over_sampling import SMOTE
 
+# ===============================
+# 1. Load Dataset
+# ===============================
+data = pd.read_csv("heart_1.csv")
 
-# plot_confusion_matrix of knn
-array =  [[29,11],
-          [3,24]]
-df_confusion_matrix = pd.DataFrame(array, index = [i for i in "01"],
-                  columns = [i for i in "01"])
-plt.figure(figsize = (2,2))
-sn.heatmap(df_confusion_matrix, annot=True)
-plt.title('Confusion matrix of knn', y=1.1)
-plt.ylabel('Actual label')
-plt.xlabel('Predicted label')
+# ===============================
+# 2. Density Plots (LABELED)
+# ===============================
+numeric_data = data.select_dtypes(include=["int64", "float64"])
+
+fig, axes = plt.subplots(4, 4, figsize=(14, 12))
+axes = axes.flatten()
+
+for i, col in enumerate(numeric_data.columns):
+    numeric_data[col].plot(kind="density", ax=axes[i])
+    axes[i].set_title(col)
+
+for j in range(i + 1, len(axes)):
+    axes[j].axis("off")
+
+plt.suptitle("Density Distribution of Clinical Features", y=1.02)
+plt.tight_layout()
 plt.show()
 
-
-# plot_confusion_matrix of RF
-array =  [[26,6],
-          [2,33]]
-df_cf_matrix = pd.DataFrame(array, index = [i for i in "01"],
-                  columns = [i for i in "01"])
-plt.figure(figsize = (2,2))
-sn.heatmap(df_cf_matrix, annot=True)
-plt.title('Confusion matrix of random forest', y=1.1)
-plt.ylabel('Actual label')
-plt.xlabel('Predicted label')
+# ===============================
+# 3. Correlation Matrix (NUMERIC ONLY)
+# ===============================
+plt.figure(figsize=(12, 10))
+sns.heatmap(
+    numeric_data.corr(),
+    annot=True,
+    fmt=".2f",
+    cmap="coolwarm",
+    linewidths=0.5
+)
+plt.title("Correlation Matrix of Heart Disease Features")
 plt.show()
 
-# plot_confusion_matrix of LR
-array =  [[29,3],
-          [4,31]]
-df_cm = pd.DataFrame(array, index = [i for i in "01"],
-                  columns = [i for i in "01"])
-plt.figure(figsize = (2,2))
-sn.heatmap(df_cm, annot=True)
-plt.title('Confusion matrix of logistic regression', y=1.1)
-plt.ylabel('Actual label')
-plt.xlabel('Predicted label')
+# ===============================
+# 4. Encoding
+# ===============================
+data_encoded = pd.get_dummies(
+    data,
+    columns=["Sex", "ChestPainType", "RestingECG", "ExerciseAngina", "ST_Slope"],
+    drop_first=True
+)
+
+X = data_encoded.drop("HeartDisease", axis=1)
+y = data_encoded["HeartDisease"]
+
+# ===============================
+# 5. Train-Test Split
+# ===============================
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+# ===============================
+# 6. Scaling
+# ===============================
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# ===============================
+# 7. SMOTE
+# ===============================
+smote = SMOTE(random_state=42)
+X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
+
+print("\nClass distribution after SMOTE:")
+print(pd.Series(y_train_smote).value_counts())
+
+# ===============================
+# 8. Models
+# ===============================
+models = {
+    "Logistic Regression": LogisticRegression(max_iter=1000),
+    "KNN": KNeighborsClassifier(n_neighbors=5),
+    "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
+    "Decision Tree": DecisionTreeClassifier(random_state=42)
+}
+
+# ===============================
+# 9. Individual Model Evaluation
+# ===============================
+plt.figure(figsize=(8, 6))
+
+for name, model in models.items():
+    model.fit(X_train_smote, y_train_smote)
+    y_pred = model.predict(X_test)
+    y_prob = model.predict_proba(X_test)[:, 1]
+
+    print(f"\n{name} Accuracy:", accuracy_score(y_test, y_pred))
+    print(classification_report(y_test, y_pred))
+
+    cm = confusion_matrix(y_test, y_pred)
+    plt.figure(figsize=(4, 4))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+    plt.title(f"{name} - Confusion Matrix")
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
+    plt.show()
+
+    fpr, tpr, _ = roc_curve(y_test, y_prob)
+    roc_auc = auc(fpr, tpr)
+    plt.plot(fpr, tpr, label=f"{name} (AUC={roc_auc:.2f})")
+
+plt.plot([0, 1], [0, 1], linestyle="--", color="gray")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curves - Individual Models")
+plt.legend()
 plt.show()
 
-# calculate roc curves
+# ===============================
+# 10. Hybrid Voting Classifier
+# ===============================
+voting_model = VotingClassifier(
+    estimators=[
+        ("lr", models["Logistic Regression"]),
+        ("knn", models["KNN"]),
+        ("rf", models["Random Forest"]),
+        ("dt", models["Decision Tree"])
+    ],
+    voting="soft"
+)
 
-lr_fpr, lr_tpr, _ = roc_curve(y_test, y_prediction)
-# plot the roc curve for the model
+voting_model.fit(X_train_smote, y_train_smote)
 
-pyplot.plot(lr_fpr, lr_tpr, marker='.', label='accuracy')
-# axis labels
-plt.title('ROC AUC for a Logistic Regression', y=1.1)
-pyplot.xlabel('False Positive Rate')
-pyplot.ylabel('True Positive Rate')
-# show the legend
-pyplot.legend()
-# show the plot
-pyplot.show()
+y_pred = voting_model.predict(X_test)
+y_prob = voting_model.predict_proba(X_test)[:, 1]
 
+print("\nVoting Classifier Accuracy:", accuracy_score(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+
+# ===============================
+# 11. Hybrid Confusion Matrix
+# ===============================
+cm = confusion_matrix(y_test, y_pred)
+plt.figure(figsize=(4, 4))
+sns.heatmap(
+    cm, annot=True, fmt="d", cmap="Greens",
+    xticklabels=["No Disease", "Disease"],
+    yticklabels=["No Disease", "Disease"]
+)
+plt.title("Hybrid Voting Classifier - Confusion Matrix")
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.show()
+
+# ===============================
+# 12. Hybrid ROC Curve
+# ===============================
+fpr, tpr, _ = roc_curve(y_test, y_prob)
+roc_auc = auc(fpr, tpr)
+
+plt.figure(figsize=(6, 5))
+plt.plot(fpr, tpr, color="green", label=f"Hybrid Model (AUC={roc_auc:.2f})")
+plt.plot([0, 1], [0, 1], linestyle="--", color="gray")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve - Hybrid Voting Model")
+plt.legend()
+plt.show()
+
+# ===============================
+# 13. Feature Importance
+# ===============================
+rf_model = models["Random Forest"]
+importance_df = pd.DataFrame({
+    "Feature": X.columns,
+    "Importance": rf_model.feature_importances_
+}).sort_values(by="Importance", ascending=False)
+
+plt.figure(figsize=(8, 6))
+sns.barplot(x="Importance", y="Feature", data=importance_df.head(10))
+plt.title("Top 10 Important Features (Random Forest)")
+plt.show()
+
+# ===============================
+# 14. Save Artifacts
+# ===============================
+with open("static/model/model.sav", "wb") as f:
+    pickle.dump(voting_model, f)
+
+with open("static/model/scaler.pkl", "wb") as f:
+    pickle.dump(scaler, f)
+
+with open("static/model/features.pkl", "wb") as f:
+    pickle.dump(list(X.columns), f)
+
+print("\n✅ Hybrid voting model, scaler, and features saved successfully.")
