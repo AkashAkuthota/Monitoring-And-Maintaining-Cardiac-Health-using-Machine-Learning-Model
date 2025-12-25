@@ -3,7 +3,6 @@
 
 <p align="center">
   <b>Research-Oriented | Hybrid ML Model | Flask Deployment</b><br>
-  <i>Aligned with Research Paper, PPT, and Final Documentation</i>
 </p>
 
 ---
