@@ -1,7 +1,7 @@
-# 🫀 Monitoring and Maintaining Cardiac Health using Machine Learning  
+# 🫀 Monitoring and Maintaining Cardiac Health using Machine Learning
 
 <p align="center">
-  <b>Hybrid Voting Classifier Based Heart Disease Prediction System</b><br>
+  <b>Hybrid Voting Classifier–Based Heart Disease Prediction System</b><br>
 </p>
 
 <p align="center">
@@ -9,103 +9,136 @@
 </p>
 
 ---
-## 📌 **IEEE Published Research Implementation**  
-This repository contains the official implementation of an IEEE-published research paper on heart disease prediction using hybrid machine learning models.  
-🔗 https://ieeexplore.ieee.org/document/11081197
+
+## 📌 IEEE Published Research Implementation
+
+This repository contains the implementation aligned with an **IEEE-published research paper** on heart disease prediction using hybrid machine learning models.
+
+🔗 [https://ieeexplore.ieee.org/document/11081197](https://ieeexplore.ieee.org/document/11081197)
+
+---
 
 ## 📌 Abstract
 
-Cardiovascular diseases are among the leading causes of death globally.  
-Early and accurate detection of heart disease using clinical parameters can significantly improve patient outcomes.
+Cardiovascular diseases are among the leading causes of mortality worldwide.
+Early and accurate detection using clinical parameters can significantly improve patient outcomes and preventive care.
 
-This project implements a **Hybrid Machine Learning System** using a **Voting Classifier** that combines multiple supervised learning algorithms to improve prediction accuracy, stability, and generalization.  
-The trained model is deployed through a **Flask-based web application** for real-time prediction.
+This project implements a **Hybrid Machine Learning System** based on a **Voting Classifier**, integrating multiple supervised learning algorithms to enhance prediction accuracy, robustness, and generalization.
+The trained hybrid model is deployed through a **Flask-based web application** for real-time cardiac risk prediction.
 
 ---
 
 ## 🎯 Key Objectives
 
-✔ Design a **Hybrid (Ensemble) Machine Learning Model**  
-✔ Compare individual classifiers with a **Voting Classifier**  
-✔ Handle **class imbalance using SMOTE**  
-✔ Perform **EDA, correlation analysis, and statistical visualization**  
-✔ Deploy the final model using **Flask**  
-✔ Maintain **strict alignment with research paper & PPT**
+✔ Design a **Hybrid (Ensemble) Machine Learning Model**
+✔ Compare individual classifiers with a **Voting Classifier**
+✔ Handle **class imbalance using SMOTE**
+✔ Perform **EDA, correlation analysis, and statistical visualization**
+✔ Deploy the final model using **Flask**
+✔ Maintain **strict alignment with the IEEE research paper and presentation**
 
 ---
 
 ## 🧠 Dataset Information
 
-| Attribute | Description |
-|---------|------------|
-| Dataset | `heart_1.csv` |
-| Records | 919 |
-| Features | Clinical & diagnostic parameters |
-| Target | `HeartDisease` (0 = No, 1 = Yes) |
+### Baseline Dataset (Repository)
 
-### Key Features
-- Age  
-- Resting Blood Pressure  
-- Cholesterol  
-- Fasting Blood Sugar  
-- Maximum Heart Rate  
-- ST Depression (Oldpeak)  
-- Chest Pain Type  
-- Resting ECG  
-- Exercise Angina  
-- ST Slope  
+| Attribute | Description                      |
+| --------- | -------------------------------- |
+| File      | `heart_1.csv`                    |
+| Records   | ~900                             |
+| Features  | Clinical & diagnostic parameters |
+| Target    | `HeartDisease` (0 = No, 1 = Yes) |
+
+This dataset is retained in the repository for **reproducibility and reference**.
+
+---
+
+### Large-Scale Dataset (Final Training)
+
+* Records: **~3200+**
+* Features: **12–15 clinically relevant attributes**
+* Used for: **final hybrid model training**
+* Status: **Intentionally excluded from GitHub** via `.gitignore`
+
+> This ensures a lightweight repository while preserving research-grade experimentation.
+
+---
+
+### Key Clinical Features
+
+* Age
+* Sex
+* Chest Pain Type
+* Resting Blood Pressure
+* Serum Cholesterol
+* Fasting Blood Sugar
+* Resting ECG
+* Maximum Heart Rate (Thalach)
+* Exercise-Induced Angina
+* ST Depression (Oldpeak)
+* ST Segment Slope
+
+All features are **consistent across datasets** and clinically relevant.
 
 ---
 
 ## 🔬 Exploratory Data Analysis (EDA)
 
-Performed entirely inside **`model.py`**, producing:
+EDA is performed entirely inside **`model.py`**, generating:
 
-📊 Density plots (numeric features only)  
-🔥 Correlation heatmap  
-📈 Feature distributions  
+📊 Density plots (numerical features)
+🔥 Correlation heatmap
+📈 Feature distributions
 🌲 Feature importance (Random Forest)
 
-These plots appear **directly in the terminal execution** to support:
-- Statistical interpretation
-- Paper & PPT figures
-- Result reproducibility
+These visualizations are produced during model execution to support:
+
+* Statistical interpretation
+* IEEE paper & PPT figures
+* Experimental reproducibility
+
+> Note: Correlation and EDA plots are **dataset-level analyses**, not model-specific.
 
 ---
 
 ## ⚙️ Machine Learning Models Implemented
 
 ### Individual Classifiers
-- Logistic Regression  
-- K-Nearest Neighbors (KNN)  
-- Decision Tree  
-- Random Forest  
+
+* Logistic Regression
+* K-Nearest Neighbors (KNN)
+* Decision Tree
+* Random Forest
 
 Each model is evaluated using:
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- Confusion Matrix
-- ROC Curve
+
+* Accuracy
+* Precision
+* Recall
+* F1-score
+* Confusion Matrix
+* ROC Curve
 
 ---
 
 ## 🧩 Hybrid Voting Classifier (Core Contribution)
 
 ### Why Voting Classifier?
-✔ Combines strengths of multiple models  
-✔ Reduces overfitting  
-✔ Improves stability  
-✔ Produces balanced predictions  
 
-### Models Used in Ensemble
-- Logistic Regression  
-- KNN  
-- Decision Tree  
-- Random Forest  
+✔ Combines strengths of multiple models
+✔ Reduces overfitting
+✔ Improves stability
+✔ Produces balanced predictions
 
-📌 **Soft Voting** is applied to leverage predicted probabilities.
+### Ensemble Composition
+
+* Logistic Regression
+* KNN
+* Decision Tree
+* Random Forest
+
+📌 **Soft Voting** is used to aggregate predicted probabilities.
 
 ---
 
@@ -113,61 +146,67 @@ Each model is evaluated using:
 
 To address skewed class distribution:
 
-- **SMOTE (Synthetic Minority Oversampling Technique)** is applied
-- Balances training data before model fitting
-- Improves recall and fairness
+* **SMOTE (Synthetic Minority Oversampling Technique)** is applied
+* Balances the training data before model fitting
+* Improves recall and model fairness
 
 ```
-
 Class distribution after SMOTE:
-1 → 406
 0 → 406
-
+1 → 406
 ```
 
 ---
 
 ## 📊 Model Performance (Hybrid Model)
 
-| Metric | Value |
-|------|------|
-| Accuracy | ~88–89% |
-| Precision | Balanced |
-| Recall | Balanced |
-| F1-score | Stable |
+| Metric    | Value        |
+| --------- | ------------ |
+| Accuracy  | ~88–89%      |
+| Precision | Balanced     |
+| Recall    | Balanced     |
+| F1-score  | Stable       |
+| ROC-AUC   | High (~0.94) |
 
-✔ Confusion Matrix  
-✔ ROC Curve  
-✔ Classification Report  
+✔ Confusion Matrix
+✔ ROC Curve
+✔ Classification Report
 
 ---
 
 ## 🌐 Web Application (Flask)
 
-The trained hybrid model is deployed using **Flask**.
+The trained hybrid model is deployed using **Flask** for real-time inference.
 
 ### Application Features
-- Step-by-step user input form
-- Automatic feature encoding
-- Feature scaling using saved scaler
-- Prediction probability display
-- Clean UI with result visualization
 
-📁 Training and inference are **strictly separated**:
-- `model.py` → training + evaluation
-- `app.py` → prediction only
+* Step-by-step clinical input form
+* Automatic categorical encoding
+* Feature scaling using saved `StandardScaler`
+* Risk classification with probability score
+* Clean UI with visual indicators
+
+📁 **Strict separation of concerns**:
+
+* `model.py` → Training, EDA, evaluation
+* `app.py` → Prediction & inference only
+
+---
+
+### Dietary Recommendation Integration
+
+For higher-risk predictions, the application provides a **dietary recommendation link** to support preventive cardiac care and lifestyle awareness.
 
 ---
 
 ## 📁 Project Structure
 
 ```
-
 Monitoring-And-Maintaining-Cardiac-Health-using-Machine-Learning-Model/
 │
 ├── model.py                 # Training, EDA, evaluation, saving models
 ├── app.py                   # Flask inference application
-├── heart_1.csv              # Dataset
+├── heart_1.csv              # Baseline dataset
 ├── requirements.txt         # Dependencies
 ├── README.md                # Project documentation
 │
@@ -185,8 +224,7 @@ Monitoring-And-Maintaining-Cardiac-Health-using-Machine-Learning-Model/
 │   ├── result.html
 │   ├── about.html
 │   └── contact.html
-
-````
+```
 
 ---
 
@@ -195,19 +233,21 @@ Monitoring-And-Maintaining-Cardiac-Health-using-Machine-Learning-Model/
 All dependencies are listed in `requirements.txt`.
 
 Key libraries:
-- Python 3.10
-- NumPy
-- Pandas
-- Matplotlib
-- Seaborn
-- Scikit-learn
-- Imbalanced-learn
-- Flask
+
+* Python 3.10
+* NumPy
+* Pandas
+* Matplotlib
+* Seaborn
+* Scikit-learn
+* Imbalanced-learn
+* Flask
 
 Install using:
+
 ```bash
 pip install -r requirements.txt
-````
+```
 
 ---
 
@@ -220,7 +260,7 @@ python model.py
 ```
 
 ✔ Performs EDA
-✔ Trains individual + hybrid models
+✔ Trains individual & hybrid models
 ✔ Displays plots and metrics
 ✔ Saves model artifacts
 
@@ -239,30 +279,23 @@ http://127.0.0.1:5000/
 ```
 
 ---
+
 ## 📄 Research Publication
 
-This project is directly aligned with and implemented based on our peer-reviewed research paper published on IEEE Xplore.
+This project is aligned with our peer-reviewed research published on **IEEE Xplore**.
 
-🔗 IEEE Publication Link
+🔗 **Monitoring and Maintaining Cardiac Health Using Machine Learning Models**
+[https://ieeexplore.ieee.org/document/11081197](https://ieeexplore.ieee.org/document/11081197)
 
-👉 Monitoring and Maintaining Cardiac Health Using Machine Learning Models
-https://ieeexplore.ieee.org/document/11081197
+**Publisher:** IEEE
+**Platform:** IEEE Xplore Digital Library
 
-📌 Publication Details
+**Focus Areas:**
 
-Publisher: IEEE
-
-Platform: IEEE Xplore Digital Library
-
-Focus:
-
-Hybrid Machine Learning models for heart disease prediction
-
-Ensemble / Voting Classifier approach
-
-Performance comparison across ML algorithms
-
-Practical deployment considerations
+* Hybrid Machine Learning models
+* Ensemble / Voting Classifier approach
+* Comparative ML evaluation
+* Practical deployment considerations
 
 ---
 
@@ -273,5 +306,7 @@ Computer Science Graduate
 
 ---
 
-> *This project demonstrates the practical application of ensemble machine learning techniques for real-world healthcare prediction problems.*
+> *This project demonstrates the real-world application of ensemble machine learning techniques for healthcare risk prediction and decision support.*
+
+---
 
