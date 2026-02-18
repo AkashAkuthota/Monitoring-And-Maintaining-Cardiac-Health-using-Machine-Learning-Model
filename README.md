@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <b>Research-Oriented | Hybrid ML Model | Flask Deployment</b><br>
+  <b>Research-Oriented | Hybrid ML Model | FastAPI Deployment</b><br>
 </p>
 
 ---
@@ -174,28 +174,35 @@ Class distribution after SMOTE:
 
 ---
 
-## 🌐 Web Application (Flask)
+## :🌐 Web Application (FastAPI)
 
-The trained hybrid model is deployed using **Flask** for real-time inference.
+The trained hybrid model is deployed using FastAPI for real-time inference and backend API handling.
 
-### Application Features
+## Application Features
 
-* Step-by-step clinical input form
-* Automatic categorical encoding
-* Feature scaling using saved `StandardScaler`
-* Risk classification with probability score
-* Clean UI with visual indicators
+Step-by-step clinical input form served via Jinja2 templates
 
-📁 **Strict separation of concerns**:
+Server-side input validation using FastAPI form handling
 
-* `model.py` → Training, EDA, evaluation
-* `app.py` → Prediction & inference only
+Automatic categorical encoding aligned with saved feature structure
 
----
+Feature scaling using persisted StandardScaler
 
-### Dietary Recommendation Integration
+Risk classification with probability score returned in structured format
 
-For higher-risk predictions, the application provides a **dietary recommendation link** to support preventive cardiac care and lifestyle awareness.
+Clean UI with visual indicators and response rendering
+
+## 📁 Strict separation of concerns:
+
+model.py → Model training, EDA, evaluation, artifact saving
+
+app.py → FastAPI-based prediction endpoints and inference logic
+
+static/ & templates/ → Frontend assets and presentation layer
+
+## Dietary Recommendation Integration
+
+For higher-risk predictions, the application dynamically provides a dietary recommendation link to support preventive cardiac care and lifestyle awareness, demonstrating practical decision-support integration.
 
 ---
 
@@ -205,7 +212,7 @@ For higher-risk predictions, the application provides a **dietary recommendation
 Monitoring-And-Maintaining-Cardiac-Health-using-Machine-Learning-Model/
 │
 ├── model.py                 # Training, EDA, evaluation, saving models
-├── app.py                   # Flask inference application
+├── app.py                   # FastAPI application
 ├── heart_1.csv              # Baseline dataset
 ├── requirements.txt         # Dependencies
 ├── README.md                # Project documentation
@@ -241,7 +248,11 @@ Key libraries:
 * Seaborn
 * Scikit-learn
 * Imbalanced-learn
-* Flask
+* fastapi
+* uvicorn
+* python-multipart
+* jinja2
+
 
 Install using:
 
