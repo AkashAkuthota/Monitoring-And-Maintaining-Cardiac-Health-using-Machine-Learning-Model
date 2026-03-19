@@ -24,7 +24,7 @@ Cardiovascular diseases are among the leading causes of mortality worldwide.
 Early and accurate detection using clinical parameters can significantly improve patient outcomes and preventive care.
 
 This project implements a **Hybrid Machine Learning System** based on a **Voting Classifier**, integrating multiple supervised learning algorithms to enhance prediction accuracy, robustness, and generalization.
-The trained hybrid model is deployed through a **Flask-based web application** for real-time cardiac risk prediction.
+The trained hybrid model is deployed through a **FASTAPI-based web application** for real-time cardiac risk prediction.
 
 ---
 
@@ -34,7 +34,7 @@ The trained hybrid model is deployed through a **Flask-based web application** f
 ✔ Compare individual classifiers with a **Voting Classifier**
 ✔ Handle **class imbalance using SMOTE**
 ✔ Perform **EDA, correlation analysis, and statistical visualization**
-✔ Deploy the final model using **Flask**
+✔ Deploy the final model using **FASTAPI**
 ✔ Maintain **strict alignment with the IEEE research paper and presentation**
 
 ---
